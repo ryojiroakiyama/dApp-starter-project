@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-/* ethers 変数を使えるようにする */
+// ethers 変数を使えるようにする
 import { ethers } from "ethers";
+// ABIファイルを含むWavePortal.jsonファイルをインポートする
+import abi from "./utils/WavePortal.json";
 const App = () => {
   // ユーザーのパブリックウォレットを保存するために使用する状態変数を定義します。
   const [currentAccount, setCurrentAccount] = useState("");
-  const contractAddress = "0x9b155db0368d0AdEa451a8a5A11B2943424399fA"
   console.log("currentAccount: ", currentAccount);
+  // デプロイされたコントラクトのアドレスを保持する変数を作成
+  const contractAddress = "0x9b155db0368d0AdEa451a8a5A11B2943424399fA"
+  // ABIの内容を参照する変数を作成
+  const contractABI = abi.abi;
   // window.ethereumにアクセスできることを確認します。
   const checkIfWalletIsConnected = async () => {
     try {
@@ -54,6 +59,7 @@ const App = () => {
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
+        // ABIを参照
         const wavePortalContract = new ethers.Contract(
           contractAddress,
           contractABI,
@@ -62,6 +68,13 @@ const App = () => {
         let count = await wavePortalContract.getTotalWaves();
         console.log("Retrieved total wave count...", count.toNumber());
         console.log("Signer:", signer);
+        // コントラクトに👋（wave）を書き込む。
+        const waveTxn = await wavePortalContract.wave();
+        console.log("Mining...", waveTxn.hash);
+        await waveTxn.wait();
+        console.log("Mined -- ", waveTxn.hash);
+        count = await wavePortalContract.getTotalWaves();
+        console.log("Retrieved total wave count...", count.toNumber());
       } else {
         console.log("Ethereum object doesn't exist!");
       }
