@@ -14,7 +14,7 @@ const App = () => {
   const [allWaves, setAllWaves] = useState([]);
   console.log("currentAccount: ", currentAccount);
   /* デプロイされたコントラクトのアドレスを保持する変数を作成 */
-  const contractAddress = " 0x138C926fCD36f1fB8d2462Bf45047Cd50b1587f8";
+  const contractAddress = "0xE34f6e791f3c7014B64bc35dF7806F0C79A5F53A";
   /* コントラクトからすべてのwavesを取得するメソッドを作成 */
   // ABIの内容を参照する変数を作成
   const contractABI = abi.abi;
@@ -85,7 +85,7 @@ const App = () => {
         contractABI,
         signer
       );
-      wavePortalContract.on("NewWave", onNewWave); // onNewWaveを呼び出し
+      wavePortalContract.on("NewWave", onNewWave); // onNewWaveを呼び出し(というより登録？)
     }
     // ここまででフロントエンドはNewWaveイベントがコントラクトから発信された時に, 情報を受け取り反映
     // -> コンポーネント(情報)がマウント(フロントエンドに反映)されるという
@@ -164,6 +164,8 @@ const App = () => {
         console.log("Retrieved total wave count...", count.toNumber());
         console.log("Signer:", signer);
         /* コントラクトに👋（wave）を書き込む */
+        // 処理ブロックなどで無理なガス量にならないための上限を設定
+        // MAX_ETH = gas_fee * gasLimit
         const waveTxn = await wavePortalContract.wave(messageValue, {
           gasLimit: 300000,
         });
