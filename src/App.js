@@ -19,9 +19,9 @@ const App = () => {
   // ABIの内容を参照する変数を作成
   const contractABI = abi.abi;
 
-  let logBackGroundTopColor = "#33CAFF";
+  let logBackGroundTopColor = "#9D94FC";
   let [logBackGroundBottomColor, setLogBackGroundBottomColor] =
-    useState("#33CAFF");
+    useState("#9D94FC");
 
   const getAllWaves = async () => {
     const { ethereum } = window;
@@ -193,10 +193,10 @@ const App = () => {
           /* 減っていたら下記を出力 */
           console.log("User won ETH!");
           // UIの履歴テキストの背景色を変更
-          setLogBackGroundBottomColor("#338AFF");
+          setLogBackGroundBottomColor("#FC9494");
         } else {
           console.log("User didn't win ETH.");
-          setLogBackGroundBottomColor("#33E9FF");
+          setLogBackGroundBottomColor("#94FCD6");
         }
         console.log(
           "Contract balance after wave:",
@@ -235,16 +235,50 @@ const App = () => {
         <br />
         {/* ウォレットコネクトのボタンを実装 */}
         {!currentAccount && (
-          <button className="waveButton" onClick={connectWallet}>
+          <button
+            className="waveButton"
+            style={{
+              background:
+                "linear-gradient(" +
+                logBackGroundTopColor +
+                ", " +
+                logBackGroundBottomColor +
+                ")",
+            }}
+            onClick={connectWallet}
+          >
             Connect Wallet
           </button>
         )}
         {currentAccount && (
-          <button className="waveButton">Wallet Connected</button>
+          <button
+            className="waveButton"
+            style={{
+              background:
+                "linear-gradient(" +
+                logBackGroundTopColor +
+                ", " +
+                logBackGroundBottomColor +
+                ")",
+            }}
+          >
+            Wallet Connected
+          </button>
         )}
         {/* waveボタンにwave関数を連動 */}
         {currentAccount && (
-          <button className="waveButton" onClick={wave}>
+          <button
+            className="waveButton"
+            style={{
+              background:
+                "linear-gradient(" +
+                logBackGroundTopColor +
+                ", " +
+                logBackGroundBottomColor +
+                ")",
+            }}
+            onClick={wave}
+          >
             Wave at Me
           </button>
         )}
@@ -269,12 +303,7 @@ const App = () => {
                 <div
                   key={index}
                   style={{
-                    background:
-                      "linear-gradient(" +
-                      logBackGroundTopColor +
-                      ", " +
-                      logBackGroundBottomColor +
-                      ")",
+                    background: "#C8C3C2",
                     marginTop: "16px",
                     padding: "8px",
                   }}
