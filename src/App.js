@@ -19,6 +19,10 @@ const App = () => {
   // ABIの内容を参照する変数を作成
   const contractABI = abi.abi;
 
+  let logBackGroundTopColor = "#33CAFF";
+  let [logBackGroundBottomColor, setLogBackGroundBottomColor] =
+    useState("#33CAFF");
+
   const getAllWaves = async () => {
     const { ethereum } = window;
 
@@ -188,8 +192,11 @@ const App = () => {
         if (contractBalance_post < contractBalance) {
           /* 減っていたら下記を出力 */
           console.log("User won ETH!");
+          // UIの履歴テキストの背景色を変更
+          setLogBackGroundBottomColor("#338AFF");
         } else {
           console.log("User didn't win ETH.");
+          setLogBackGroundBottomColor("#33E9FF");
         }
         console.log(
           "Contract balance after wave:",
@@ -262,11 +269,17 @@ const App = () => {
                 <div
                   key={index}
                   style={{
-                    backgroundColor: "#F8F8FF",
+                    background:
+                      "linear-gradient(" +
+                      logBackGroundTopColor +
+                      ", " +
+                      logBackGroundBottomColor +
+                      ")",
                     marginTop: "16px",
                     padding: "8px",
                   }}
                 >
+                  <div>index: {index.toString()}</div>
                   <div>Address: {wave.address}</div>
                   <div>Time: {wave.timestamp.toString()}</div>
                   <div>Message: {wave.message}</div>
